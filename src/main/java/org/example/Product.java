@@ -3,7 +3,7 @@ package org.example;
 public class Product {
     private final String name;
     private final double price;
-    private final int stockQuantity;
+    private int stockQuantity;
     private final double productScore;
 
     public Product(String name, double price, int quantity, double productScore) {
@@ -23,6 +23,10 @@ public class Product {
 
     public int getStockQuantity() {
         return this.stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public double getProductScore() {

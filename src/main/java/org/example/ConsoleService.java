@@ -38,7 +38,7 @@ class ConsoleService {
             }
 
             System.out.printf(message, minLength);
-            System.out.println();
+
         }
     }
 }

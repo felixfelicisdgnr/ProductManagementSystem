@@ -6,33 +6,28 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class ProductService {
-    private final Scanner scanner;
     private final ConsoleService consoleService;
     private final ArrayList<Product> products = new ArrayList<>();
 
     public ProductService(Scanner scanner, ConsoleService consoleService) {
-        this.scanner = scanner;
         this.consoleService = consoleService;
     }
 
     void addNewProducts() {
-        String s = "Kaç farklı ürün gireceksiniz? ";
-        System.out.println(s);
-        double productCount = (double) this.consoleService.getInt("Lütfen en az 2 ürün giriniz: ", 2);
+
+        double productCount = (double) this.consoleService.getInt("Kaç farklı ürün gireceksiniz?,Lütfen en az 2 ürün giriniz: ", 2);
 
         for (int i = 0; (double) i < productCount; ++i) {
             while (true) {
-                //System.out.println("Ürün adı: ");
-                String name = this.consoleService.getString("Ürün adı en fazla %d karakter olmalıdır: ", 20);
+
+                String name = this.consoleService.getString("Ürün Adı, (Ürün adı en fazla 20 karakter olmalıdır): ", 20);
+
                 boolean nameExists = this.productExists(name);
                 if (!nameExists) {
-                    System.out.print("ürün fiyatı: ");
-                    double price = this.consoleService.getInt("Fiyat 1 ile 100 arasında olmalıdır: ", 1, 100);
-                    System.out.print("Ürün miktarı: ");
-                    double quantity = (double) this.consoleService.getInt("Miktar en az 1 olmalıdır: ", 1);
-                    System.out.print("Değerlendirme puanı (1-5): ");
-                    double score = this.consoleService.getInt("Puanınız 1 ile 5 arasında olmalıdır: ", 1, 5);
-                    this.scanner.nextLine();
+
+                    double price = this.consoleService.getInt("Ürün Fiyatı, (Fiyat 1 ile 100 arasında olmalıdır): ", 1, 100);
+                    double quantity = (double) this.consoleService.getInt("Ürün Miktarı, (Miktar en az 1 olmalıdır): ", 1);
+                    double score = this.consoleService.getInt("Değerlendirme Puanı, (Puanınız 1 ile 5 arasında olmalıdır): ", 1, 5);
                     this.products.add(new Product(name, price, (int) quantity, score));
                     break;
                 }
@@ -43,12 +38,12 @@ public class ProductService {
     }
 
     public void printProducts() {
-        System.out.println("Ürünler:");
+        System.out.println("Sıralanmış Ürünler:");
 
         for (Product product : this.products) {
-            PrintStream var10000 = System.out;
-            String var10001 = product.getName();
-            var10000.println(var10001 + ", Fiyat: " + product.getPrice() + ", Stok: " + product.getStockQuantity() + ", Değerlendirme: " + product.getProductScore());
+            PrintStream allProducts = System.out;
+            String productName = product.getName();
+            allProducts.println(productName + ", Fiyat: " + product.getPrice() + ", Stok: " + product.getStockQuantity() + ", Değerlendirme: " + product.getProductScore());
         }
     }
 
@@ -71,7 +66,17 @@ public class ProductService {
         System.out.println("[2] fiyat");
         System.out.println("[3] miktar");
         System.out.println("[4] puan");
-        int sortFuture = this.consoleService.getInt("Yukardaki numaralarindan biri seçiniz:", 0, 5);
+
+        int sortFuture;
+        while (true) {
+            sortFuture = this.consoleService.getInt("Yukarıdaki numaralarindan biri seçiniz:", 1, 4);
+            if (sortFuture >= 1 && sortFuture <= 4) {
+                break;
+            } else {
+                System.out.println("Geçersiz seçim. Lütfen 1, 2, 3 veya 4 numaralarından birini seçiniz.");
+            }
+        }
+
         SortParameter[] values = SortParameter.values();
         return values[sortFuture - 1];
     }
